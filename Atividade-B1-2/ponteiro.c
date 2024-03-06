@@ -10,16 +10,16 @@ int main(void)
   scanf_s("%f", &price);
   discount = ask_discount();
 
-  printf("O preço final é: %f.2f\n", calc_final(&price, discount));
-  printf("O preço original é: %f.2f\n", price);
-  printf("O desconto foi de: %f.2f", discount);
+  printf("O preço final é: %.2f\n", calc_final(&price, discount));
+  printf("O preço original é: %.2f\n", price);
+  printf("O desconto foi de: %.2f%%", discount);
 
   return 0;
 }
 
 float calc_final(float *price, float discount)
 {
-  return *price - (*price * discount / 100);
+  return *price - *price * discount / 100;
 }
 
 float ask_discount()

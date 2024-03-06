@@ -7,4 +7,5 @@ Exercícios baseados nas aulas do queridíssimo professor [Veríssimo](https://g
 ## Lista de temas
 
 - Ordenação
+- Ponteiros
 - ...
