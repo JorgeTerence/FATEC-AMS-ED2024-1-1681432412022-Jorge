@@ -5,13 +5,13 @@ float calc_final(float *price, float discount);
 int main(void) {
   float price, discount;
   printf("Valor do produto: ");
-  scanf("%f", &price);
+  scanf_s("%f", &price);
   printf("Porcentagem do desconto: ");
-  scanf("%f", &discount);
+  scanf_s("%f", &discount);
 
   printf("O preço final é: %f", calc_final(&price, discount));
-  printf("O preço original é: %f", price);
-  printf("O desconto foi de: %f", discount);
+  printf("\nO preço original é: %f", price);
+  printf("\nO desconto foi de: %f", discount);
   
   return 0;
 }
