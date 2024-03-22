@@ -1,6 +1,7 @@
 public class App {
     public static void main(String[] args) {
         Amigo cara = new Amigo("Breninho", 18, "+55 (11) 98765-4321");
+        cara.setIdade(22);
         cara.aniversario();
         System.out.println("Idade: " + cara.idade + " anos");
         System.out.println("Idade: " + cara.idadeEmMeses() + " meses");
