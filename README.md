@@ -4,8 +4,10 @@ Dá uma olhada no repositório do meu mano [RodrigoZanetti175](https://github.co
 
 Exercícios baseados nas aulas do queridíssimo professor [Veríssimo](https://github.com/ProfVerissimoFatec)
 
-## Lista de temas
+## Temas dos exercícios
 
 - Ordenação
 - Ponteiros
+- _'Métodos'_ de arrays
+- Listas ligadas
 - ...

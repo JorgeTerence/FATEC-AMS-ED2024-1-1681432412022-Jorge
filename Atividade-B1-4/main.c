@@ -4,8 +4,6 @@
 
 #include "linkedl.c"
 
-extern struct Node;
-
 int main(void) {
   Node *l = llinit();
 
