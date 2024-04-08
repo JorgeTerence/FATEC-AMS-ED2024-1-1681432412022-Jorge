@@ -1,53 +1,63 @@
 // ----------------------------------- //
-// Dado 14                             ||
-// Autores: Jorge e Rodrigo Z          ||
-// Instituição: Fatec Antonio Russo    ||
-// Professor: Carlos Veríssimo         ||
-// Data: 02/04/2024                    ||
+// Dado 14                             //
+// Autores: Jorge e Rodrigo Z          //
+// Instituição: Fatec Antonio Russo    //
+// Professor: Carlos Veríssimo         //
+// Data: 02/04/2024                    //
 // ----------------------------------- //
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "input.c"
-#include "edit.c"
-#include "remove.c"
-#include "search.c"
+#include "edit.h"
+#include "input.h"
+#include "search.h"
+
+void debugg(Product *prod) {
+  printf("chegamos");
+  if (prod == NULL) 
+    printf("tá vazio\n");
+
+  printf("%s: R$%.2f\n", *prod->name, prod->price * prod->qtd);
+}
 
 int main(void) {
   Node *head = ll_init();
-
-  for (int i = 6; i != 0; scanf("%d", &i)) {
+  Product *prod;
+  int qtd;
+  int i;
+  while(i!=0) {
+    printf("1 - Adicionar produto\n");
+    printf("2 - Buscar produto\n");
+    printf("3 - Dar baixa no produto\n");
+    
+    scanf("%d", &i);
     switch (i) {
-      case 1:
-        printf("Enter product name: ");
-        char name[50];
-        scanf("%s", name);
-        
-        printf("Enter product price: ");
-        float price;
-        scanf("%f", &price);
-        
-        printf("Enter product quantity: ");
-        int qtd;
-        scanf("%d", &qtd);
-        
-        Product *prod = (Product *)malloc(sizeof(Product));
-        prod->id = ll_count(head) + 1;
-        strcpy(prod->name, name);
-        prod->price = price;
-        prod->qtd = qtd;
-        
-        head = ll_add(head, prod);
-        break;
-      case 2: 
-           
-        printf("Digite o id do produto: ");
-        scanf( "%d", &id);
-        scanf()
-        buy(head,)
+    case 1: 
+      head = ll_add(head, input_prod(ll_count(head) + 1));
+      break;
+    case 2: 
+      prod = ll_search(head);
+      if (prod == NULL)
+        printf("Produto não encontrado :(\n");
+      else
+      {
+        printf("Nome: %s\n", prod->name);
+        printf("Qtd: %d\n", prod->qtd);
+      }
+      break;
+      
+      case 3:
+      printf("Digite a quantidade a ser retirada: ");
+      scanf("%d", &qtd);
+      if(buy(head, qtd))
+        printf("Compra realizada com sucesso!\n");
+      else
+        printf("Compra não realizada (falta no estoque)\n");
+      break;
     }
+    
   }
   return 0;
 }
