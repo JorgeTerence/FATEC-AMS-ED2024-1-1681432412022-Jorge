@@ -8,6 +8,9 @@
 // Professor, não foi possível alcançar //
 // o resultado completo, pois existem   //
 // edge-cases que não foram tratados.   //
+//                                      //
+// Para dar o input de dados, defina    //
+// MANUAL_MODE como 1.                  //
 // ------------------------------------ //
 
 #include <stdbool.h>
@@ -130,8 +133,6 @@ char *translate(char rpn[][MAX_EXP], int size) {
 
     // procurar o número mais próximo que não foi processado e trocar de ordem
     if (is_operator(infix[i][0])) {
-      show(infix, size * 2);
-
       bool flag_done_rev = false;
 
       for (int j = i; j >= 0; j--) {
