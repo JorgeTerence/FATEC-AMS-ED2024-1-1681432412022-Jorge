@@ -37,14 +37,12 @@ bool ask_yes_no(char *msg) {
 }
 
 Patient *ask_patient() {
-  int id = ask_int("ID do paciente: "); // Check for existing patient
-  int password = ask_int("Senha: "); // Check for existing password (overwrite?)
-                                     // [overwrite/use/cancel]
+  int password = ask_int("Senha: ");
   int age = ask_int("Idade: ");
   char *name = ask_str("Nome: ", 50);
   char *specialty = ask_str("Especialidade: ", 10);
 
-  return patient_init(id, password, age, name, specialty);
+  return patient_init(password, age, name, specialty);
 }
 
 void patient_card(Patient *pt) {
@@ -53,5 +51,16 @@ void patient_card(Patient *pt) {
   printf("Nome: %s\n", pt->name);
   printf("Idade: %d\n", pt->age);
   printf("Caso: %s\n", pt->specialty);
+  
+  char entry_str[10];
+  strftime(entry_str, 10, "%H:%M:%S", localtime(&pt->entry));
+  printf("Entrada: %s\n", entry_str);
+  
+  if (pt->exit != 0) {
+    char exit_str[10];
+    strftime(exit_str, 10, "%H:%M:%S", localtime(&pt->exit));
+    printf("Saída: %s\n", exit_str);
+  }
+  
   printf("-----------------\n");
 }

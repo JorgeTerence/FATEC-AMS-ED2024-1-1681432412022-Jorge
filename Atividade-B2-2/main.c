@@ -1,38 +1,102 @@
-#include <stdbool.h>
-#include <stdio.h>
-#include <string.h>
+/* -------------------------------------------
+Fatec São Caetano do Sul - Estrutura de Dados
+Professor: Carlos Veríssimo
+Proposta: Sistema hospitalar
+Autor: Jorge Terence
+Data: 12/05/2024
+------------------------------------------- */
+
+#include "colors.h"
 #include "operation.h"
 #include "queue.h"
 #include "types.h"
-#include "colors.h"
+#include <stdbool.h>
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
 
 #define PREF_FREQ 3
-#define MENU "=======================\n1 - Cadastrar paciente\n2 - Atender paciente\n3 - Visualizar fila\n0 - Sair\n> "
+#define MENU "=======================\n[1] Cadastrar paciente\n[2] Atender paciente\n[3] Visualizar fila\n[0] Sair\n> "
 
-/*
-TO-DO:
-- [ ] registrar pacientes já atendidos
-- [ ] registrar hora de entrada e saída
-*/
+Queue *urgency, *regular, *preferential, *history;
+
+void list_patients(int pick) {
+  Queue *queues[] = {regular, preferential, urgency, history};
+  char *colors[] = {BLUE, MAGENTA, RED, YELLOW};
+
+  // All patients
+  if (pick == 4) {
+    for (int i = pick - 1; i >= 0; i--) {
+      printf("%s# "  RESET, colors[i]);
+      print_queue(queues[i]);
+    }
+  }
+  // Specific queue
+  else {
+    printf("%s# " RESET, colors[pick - 1]);
+    print_queue(queues[pick]);
+  }
+}
+
+// FIX: Would need closures to work properly
+// Create a closure that takes the specialty before, keep it in scope and return
+// the callback Either this or find a way to define the callback in main with
+// the comparator in scope Queue *filter_patients(bool (*match)(Patient *pt)) {
+Queue *filter_patients(char *specialty) {
+  Queue *queues[] = {urgency, preferential, regular, history};
+  Queue *res = q_init();
+
+  for (int i = 0; i < 4; i++) {
+    for (Node *node = queues[i]->start; node != NULL; node = node->next) {
+      if (strcmp(node->patient->specialty, specialty) == 0) {
+        enqueue(res, node->patient);
+      }
+    }
+  }
+
+  return res;
+}
+
+Patient *search_patient(int password) {
+  Queue *queues[] = {urgency, preferential, regular, history};
+
+  for (int i = 0; i < 4; i++) {
+    for (Node *node = queues[i]->start; node != NULL; node = node->next) {
+      if (node->patient->password == password) {
+        return node->patient;
+      }
+    }
+  }
+
+  return NULL;
+}
 
 int main(void) {
-  Queue *urgency = q_init();
-  Queue *regular = q_init();
-  Queue *preferential = q_init();
+  urgency = q_init();
+  regular = q_init();
+  preferential = q_init();
+  history = q_init();
 
-  enqueue(regular, patient_init(1, 10, 18, "Ágata", "joelho"));
-  enqueue(preferential, patient_init(2, 11, 78, "Glaciete", "pulmão"));
-  enqueue(regular, patient_init(3, 12, 18, "Jorge", "coluna"));
-  enqueue(urgency, patient_init(4, 13, 89, "Simone", "coração"));
+  enqueue(regular, patient_init(10, 18, "Ágata", "joelho"));
+  enqueue(preferential, patient_init(11, 78, "Glaciete", "pulmão"));
+  enqueue(regular, patient_init(12, 18, "Jorge", "coluna"));
+  enqueue(urgency, patient_init(13, 89, "Simone", "coração"));
 
   int option;
   int pref_counter = 1;
   do {
     option = ask_int_range(MENU, 0, 3);
+    system("clear");
+
     switch (option) {
+    // Add patient to queue
     case 1: {
-      // Add patient to queue
       Patient *patient = ask_patient();
+      
+      if (search_patient(patient->password) != NULL) {
+        printf("Paciente {%d} já cadastrado!\n", patient->password);
+      }
+      
       bool pregnant = strcmp(patient->specialty, "gestação") == 0;
       bool urgent = ask_yes_no("O tratamento é urgente? [s/n] ");
 
@@ -47,89 +111,72 @@ int main(void) {
       break;
     }
 
+    // Call patients based on priority
     case 2: {
-      // Call patients based on priority
+      Patient *pt = malloc(sizeof(Patient));
+
+      // Urgency
       if (!queue_empty(urgency)) {
         printf("%sAtendimento de urgência!%s\n", RED, RESET);
-        patient_card(dequeue(urgency));
-        break;
+        pt = dequeue(urgency);
       }
-
-      if (!queue_empty(preferential) && pref_counter % PREF_FREQ != 0) {
+      // Preferential
+      else if (!queue_empty(preferential) && pref_counter % PREF_FREQ != 0) {
         printf("%sAtendimento preferencial%s\n", MAGENTA, RESET);
-        patient_card(dequeue(preferential));
-      } else if (!queue_empty(regular)) {
+        pt = dequeue(preferential);
+        pref_counter++;
+      }
+      // Regular
+      else if (!queue_empty(regular)) {
         printf("%sAtendimento comum%s\n", BLUE, RESET);
-        patient_card(dequeue(regular));
-      } else {
+        pt = dequeue(regular);
+        pref_counter++;
+      }
+      // All queues are empty
+      else {
         printf("Todas as filas estão vazias\n");
-        break;
+        pt = NULL;
       }
 
-      pref_counter++;
+      if (pt != NULL) {
+        pt->exit = time(NULL);
+        enqueue(history, pt);
+        patient_card(pt);
+      }
+
       break;
     }
 
-    // See queues' contents
+    // Show queues' contents
     case 3: {
-      int action = ask_int_range("[1] Listar\n[2] Filtrar\n[3] Buscar\n> ", 1, 3);
+      int action =
+          ask_int_range("[1] Listar\n[2] Filtrar\n[3] Buscar\n> ", 1, 3);
 
       switch (action) {
       // Show patients
       case 1: {
-        char queue_str[80];
-        sprintf(queue_str, "%s[1] Normal\n%s[2] Preferencial\n%s[3] Urgência%s\n[4] Todas\n> ", RED, MAGENTA, BLUE, RESET);
-        int pick = ask_int_range(queue_str, 1, 4) - 1;
-        Queue *queues[3] = {regular, preferential, urgency};
-        char *colors[] = {BLUE, MAGENTA, RED};
+        char queue_str[] = BLUE "[1] Normal\n" MAGENTA "[2] Preferencial\n" RED "[3] Urgência\n" YELLOW "[4] Histórico\n" RESET "[5] Todas\n> ";
+        list_patients(ask_int_range(queue_str, 1, 5) - 1);
 
-        // All patients
-        if (pick == 3) {
-          for (int i = 2; i >= 0; i--) {
-            printf("%s#%s ", colors[i], RESET);
-            print_queue(queues[i]);
-          }
-        }
-        // Specific queue
-        else { 
-          printf("%s#%s ", colors[pick], RESET);
-          print_queue(queues[pick]);
-        }
-        
         break;
       }
 
       // Filter
       case 2: {
         char *specialty = ask_str("Especialidade: ", 10);
-        Queue *queues[3] = {urgency, preferential, regular};
-        Queue *res = q_init();
+        print_queue(filter_patients(specialty));
 
-        for (int i = 0; i < 3; i++) {
-          for (Node *node = queues[i]->start; node != NULL; node = node->next) {
-            if (strcmp(node->patient->specialty, specialty) == 0) {
-              enqueue(res, node->patient);
-            }
-          }
-        }
-
-        print_queue(res);
         break;
       }
- 
+
       // Search patient
       case 3: {
         int password = ask_int("Senha: ");
-        Queue *queues[3] = {urgency, preferential, regular};
+        Patient *pt = search_patient(password);
 
-        for (int i = 0; i < 3; i++) {
-          for (Node *node = queues[i]->start; node != NULL; node = node->next) {
-            if (node->patient->password == password) {
-              patient_card(node->patient);
-              break;
-            }
-          }
-        }
+        if (pt != NULL) patient_card(pt);
+        else printf("Paciente não encontrado\n");
+        
       }
       }
       break;
