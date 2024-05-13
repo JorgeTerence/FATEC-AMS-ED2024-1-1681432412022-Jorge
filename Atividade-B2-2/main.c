@@ -11,6 +11,7 @@ Data: 12/05/2024
 #include "queue.h"
 #include "types.h"
 #include <stdbool.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
