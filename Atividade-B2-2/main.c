@@ -96,6 +96,7 @@ int main(void) {
       
       if (search_patient(patient->password) != NULL) {
         printf("Paciente {%d} já cadastrado!\n", patient->password);
+        break;
       }
       
       bool pregnant = strcmp(patient->specialty, "gestação") == 0;
