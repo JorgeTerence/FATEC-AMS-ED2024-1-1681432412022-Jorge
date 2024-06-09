@@ -1,7 +1,7 @@
 public class Main {
     public static void main(String[] args) {
-        ContaCorrente estudante = new ContaCorrente(1, 1, 1000, "Camille");
-        ContaPoupanca professor = new ContaPoupanca(2, 2, 10000, "Veríssimo");
+        ContaCorrente estudante = new ContaCorrente(1, 1, 1000, "Andrew");
+        ContaPoupanca professor = new ContaPoupanca(2, 2, 10000, "Fletcher");
 
         estudante.consultar();
         professor.consultar();
@@ -21,6 +21,10 @@ public class Main {
             System.err.println(e.toString());
         }
 
-        // Pergunta: como torno um atributo privado para fora da classe, mas acessível às subclasses?
+        estudante.sacar(400);
+        professor.sacar(900);
+
+        estudante.consultar();
+        professor.consultar();
     }
 }

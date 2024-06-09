@@ -1,10 +1,12 @@
-public class Conta {
-    private int idAgencia;
-    private int idConta;
-    private float saldo;
-    private String titular;
-    private String tipo;
-    private static int quantidadeTotal;
+import java.security.InvalidParameterException;
+
+public abstract class Conta {
+    protected int idAgencia;
+    protected int idConta;
+    protected float saldo;
+    protected String titular;
+    protected String tipoConta;
+    protected static int quantidadeTotal;
 
     public Conta(int idAgencia, int idConta, float saldo, String titular) {
         this.idAgencia = idAgencia;
@@ -14,22 +16,22 @@ public class Conta {
         Conta.quantidadeTotal++;
     }
 
-    public void depositar(float quantia) {
-        this.saldo += quantia;
-    }
+    public abstract void depositar(float quantia);
 
-    public void sacar(float quantia) throws UnsupportedOperationException {
+    public void sacar(float quantia) throws UnsupportedOperationException, InvalidParameterException {
+        if (quantia < 0)
+            throw new InvalidParameterException("Sacando quantia negativa");
         if (this.saldo - quantia < 0)
-            throw new UnsupportedOperationException("Operação cancelada. Saldo insuficiente.");
-        else
-            this.saldo -= quantia;
+            throw new UnsupportedOperationException("Saldo insuficiente");
+
+        this.saldo -= quantia;
     }
 
     public void transferir(Conta recipiente, float quantia) {
         try {
             this.sacar(quantia);
             recipiente.depositar(quantia);
-        } catch (UnsupportedOperationException e) {
+        } catch (Exception e) {
             System.err.println(e.toString());
         }
     }
@@ -58,10 +60,6 @@ public class Conta {
         return saldo;
     }
 
-    public void setSaldo(float saldo) {
-        this.saldo = saldo;
-    }
-
     public String getTitular() {
         return titular;
     }
@@ -70,12 +68,12 @@ public class Conta {
         this.titular = titular;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getTipoConta() {
+        return tipoConta;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setTipoConta(String tipoConta) {
+        this.tipoConta = tipoConta;
     }
 
     public static int getQuantidadeTotal() {

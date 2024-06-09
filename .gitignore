@@ -6,6 +6,7 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+*/**/.idea/
 
 ### Eclipse ###
 .apt_generated
@@ -31,3 +32,7 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+Técnicas Avançadas de Programação/N1/.idea/workspace.xml
+Técnicas Avançadas de Programação/N1/.idea/workspace.xml
+Técnicas Avançadas de Programação/ProductInheritance/.idea/vcs.xml
+Técnicas Avançadas de Programação/ProductInheritance/.idea/workspace.xml
