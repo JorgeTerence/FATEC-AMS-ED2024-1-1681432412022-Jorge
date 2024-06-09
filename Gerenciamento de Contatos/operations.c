@@ -1,4 +1,4 @@
-#include "aux.h"
+#include "auxi.h"
 #include "colors.h"
 #include "queue.h"
 #include "stack.h"

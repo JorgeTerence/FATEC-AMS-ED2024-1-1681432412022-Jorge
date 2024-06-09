@@ -1,5 +1,5 @@
 #include "contato.h"
-#include "aux.h"
+#include "auxi.h"
 #include <stdlib.h>
 #include <string.h>
 

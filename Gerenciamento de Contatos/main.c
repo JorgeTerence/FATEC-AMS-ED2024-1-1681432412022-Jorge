@@ -12,7 +12,7 @@ Data: 28/05/2024
 #include <string.h>
 #include "colors.h"
 #include "contato.h"
-#include "aux.h"
+#include "auxi.h"
 
 int main() {
   Node *lista = NULL;
