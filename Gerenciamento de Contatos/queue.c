@@ -23,10 +23,8 @@ void enqueue(Queue *queue, Contato *contact) {
   Node *node = node_init(contact);
   if (queue->start == NULL)
     queue->start = node;
-
   if (queue->end != NULL)
     queue->end->proximo = node;
-
   queue->end = node;
 }
 

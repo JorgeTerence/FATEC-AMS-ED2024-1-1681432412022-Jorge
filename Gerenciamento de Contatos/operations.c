@@ -14,20 +14,20 @@
 
 #define SEARCH_LIMIT 100
 
-// Adicionar
 Node *adicionar_contato(Node *head, Contato *contato) {
   Node *new = (Node *)malloc(sizeof(Node));
   new->contato = contato;
   new->proximo = NULL;
+  char *nome = contato->nome;
 
-  if (head == NULL || strcmp(contato->nome, head->contato->nome) < 0) {
+  if (head == NULL || strcmp(nome, head->contato->nome) < 0) {
     new->proximo = head;
     return new;
   }
 
   Node *anterior = NULL;
   Node *atual = head;
-  while (atual != NULL && strcmp(contato->nome, atual->contato->nome) > 0) {
+  while (atual != NULL && strcmp(nome, atual->contato->nome) > 0) {
     anterior = atual;
     atual = atual->proximo;
   }
