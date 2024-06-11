@@ -18,5 +18,5 @@ Contato *prompt_contato() {
   char *email = ask_str("E-mail: ", 50);
   char *tel = ask_numeric_str("Telefone: ", 15);
 
-  return contato_init(name, sobrenome, email, tel);
+  return contato_init(name, sobrenome, tel, email);
 }
