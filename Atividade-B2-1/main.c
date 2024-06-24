@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MANUAL_MODE 0
+#define MANUAL_MODE 1
 #define MAX_EXP 16
 
 #include "stack.h"
