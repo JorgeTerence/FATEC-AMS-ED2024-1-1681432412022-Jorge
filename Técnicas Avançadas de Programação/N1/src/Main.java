@@ -18,7 +18,7 @@ public class Main {
         try {
             estudante.sacar(1200);
         } catch (UnsupportedOperationException e) {
-            System.err.println(e.toString());
+            System.err.println(e.getMessage());
         }
 
         estudante.sacar(400);
