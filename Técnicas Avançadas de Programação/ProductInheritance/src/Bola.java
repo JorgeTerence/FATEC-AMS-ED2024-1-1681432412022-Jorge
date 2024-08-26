@@ -1,19 +1,19 @@
 public class Bola extends Produto {
-    private float tamanho;
+    public float tamanho;
 
-    public Bola(String nome, float tamanho) {
-        super(nome);
+    public Bola(String nome, float preco, float tamanho) {
+        super(nome, preco);
         this.tamanho = tamanho;
     }
 
-    public float getTamanho() {
-        return tamanho;
-    }
 
-    public void setTamanho(float tamanho) {
+    @Override
+    public void atualizar(int tamanho) {
         this.tamanho = tamanho;
     }
+
+    @Override
     public String toString() {
-        return super.toString() + "\ntamanho=" + tamanho;
+        return String.format("%s, tamanho=%f", super.toString(), tamanho);
     }
 }

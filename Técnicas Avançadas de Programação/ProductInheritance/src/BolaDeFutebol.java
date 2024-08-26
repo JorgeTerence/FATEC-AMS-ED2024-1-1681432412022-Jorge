@@ -1,20 +1,18 @@
 public class BolaDeFutebol extends Bola {
-    private int qtdGomos;
+    public int qtdGomos;
 
-    public BolaDeFutebol(String nome, float tamanho, int qtdGomos) {
-        super(nome, tamanho);
+    public BolaDeFutebol(String nome, float preco, float tamanho, int qtdGomos) {
+        super(nome, preco, tamanho);
         this.qtdGomos = qtdGomos;
     }
 
-    public int getQtdGomos() {
-        return qtdGomos;
-    }
-
-    public void setQtdGomos(int qtdGomos) {
+    @Override
+    public void atualizar(int qtdGomos) {
         this.qtdGomos = qtdGomos;
     }
 
+    @Override
     public String toString() {
-        return super.toString() + "\nqtdGomos=" + qtdGomos;
+        return String.format("%s, qtdGomos=%d", super.toString(), qtdGomos);
     }
 }

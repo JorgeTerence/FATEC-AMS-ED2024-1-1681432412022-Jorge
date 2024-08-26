@@ -1,13 +1,43 @@
 public class Main {
     public static void main(String[] args) {
-        Produto prod = new Produto("Shampoo");
-        Brinquedo brinqs = new Brinquedo("Mr. Potato Head", 10);
-        Bola bola = new Bola("Bola de tênis", 10);
-        BolaDeFutebol bolao = new BolaDeFutebol("Jabulani", 10, 20);
+        Brinquedo batata = (Brinquedo) Produto.getInstance("brinquedo", "Mr. Potato Head", 60);
+        batata.faixaEtaria = 8;
 
-        System.out.println(prod.toString() + "\n");
-        System.out.println(brinqs.toString() + "\n");
-        System.out.println(bola.toString() + "\n");
-        System.out.println(bolao.toString() + "\n");
+        Bola tenis = (Bola) Produto.getInstance("bola", "Bola de tênis", 30);
+        tenis.tamanho = 10;
+
+        BolaDeFutebol jabulani = (BolaDeFutebol) Produto.getInstance("bola-futebol", "Jabulani", 130);
+        jabulani.tamanho = 30;
+        jabulani.qtdGomos = 14;
+
+        System.out.println(batata);
+        System.out.println(tenis);
+        System.out.println(jabulani);
+
+        batata.alterar(70);
+        System.out.println(batata);
+
+        batata.atualizar(10);
+        tenis.atualizar(8);
+        jabulani.atualizar(16);
+
+        System.out.println(batata);
+        System.out.println(tenis);
+        System.out.println(jabulani);
+
+        for (Produto p : Produto.repository) {
+            System.out.println(p);
+        }
+
+        Produto.excluir(0);
+        for (Produto p : Produto.repository) {
+            System.out.println(p);
+        }
+
+        try {
+            Produto.excluir(10);
+        } catch (IndexOutOfBoundsException e) {
+            System.err.println(e.getMessage());
+        }
     }
 }

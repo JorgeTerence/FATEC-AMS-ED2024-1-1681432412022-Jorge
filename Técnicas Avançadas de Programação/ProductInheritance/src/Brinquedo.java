@@ -1,19 +1,18 @@
 public class Brinquedo extends Produto {
-    private int faixaEtaria;
-    public Brinquedo(String nome, int faixaEtaria) {
-        super(nome);
+    public int faixaEtaria;
+
+    protected Brinquedo(String nome, float preco, int faixaEtaria) {
+        super(nome, preco);
         this.faixaEtaria = faixaEtaria;
     }
 
-    public int getFaixaEtaria() {
-        return faixaEtaria;
-    }
-
-    public void setFaixaEtaria(int faixaEtaria) {
+    @Override
+    public void atualizar(int faixaEtaria) {
         this.faixaEtaria = faixaEtaria;
     }
 
+    @Override
     public String toString() {
-        return super.toString() + "\nfaixaEtaria=" + faixaEtaria;
+        return String.format("%s, faixaEtaria=%d", super.toString(), faixaEtaria);
     }
 }
