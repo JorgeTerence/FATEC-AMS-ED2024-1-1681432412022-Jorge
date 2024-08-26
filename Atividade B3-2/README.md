@@ -1,9 +1,11 @@
+# Análise de complexidade temporal
+
 |                  | Busca Linear | Busca Linear Ordenada | Busca Binária |
 | ---------------- | ------------ | --------------------- | ------------- |
-| $$x \in A$$      |              |                       | `9 * logs(n)` |
-| $$x=A[1]$$       | `5t`         |                       | `10 * logs(n)` |
-| $$x=A[n]$$       | `5tn+2t`     |                       | `8 * logs(n)` |
-| $$x ~\not\in A$$ | `5tn+2t`     | `5t` ou `8tn + 2t `   | `8 * logs(n)` |
+| $$x \in A$$      |              |                       | `9 * log(n)`  |
+| $$x=A[1]$$       | `5t`         |                       | `10 * log(n)` |
+| $$x=A[n]$$       | `5tn + 2t`   |                       | `8 * log(n)`  |
+| $$x ~\not\in A$$ | `5tn + 2t`   | `5t` ou `8tn + 2t`    | `8 * log(n)`  |
 
 ## Busca Linear
 
