@@ -1,0 +1,3 @@
+[submodule "labirinto"]
+	path = labirinto
+	url = https://github.com/JorgeTerence/labirinto
